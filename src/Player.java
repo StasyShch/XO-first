@@ -1,10 +1,15 @@
 import java.io.IOException;
 
 public class Player {
-    private View view;
+
    private String name;
-   private String symbol;
+   private Figure figure;
    private  int lastStepCoordinate;
+
+    public Player(String name, Figure figure) {
+        this.name = name;
+        this.figure = figure;
+    }
 
     public String getName() {
         return name;
@@ -14,22 +19,10 @@ public class Player {
     }
 
     public String getSymbol() {
-        return symbol;
+        return figure.toString();
     }
 
-    public Player(View view) throws TooMuch, IOException {
-        this.name=view.getPlayersNames();
-        if(view.numberOfPlayers==1){
-            symbol ="X";
-        }
-        else symbol = "0";
-    }
 
-    public void makeStep(View view, Desk desk) throws TooMuch, IOException {
 
-        lastStepCoordinate = view.getStepCoordinate(desk,this);
 
-        desk.changeSymbol(lastStepCoordinate,symbol);
-
-    }
 }
