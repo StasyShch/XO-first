@@ -72,7 +72,7 @@ public class Desk {
         int y=position.y;
 
         for (int i = 0; i <desk[x].length ; i++) {
-            if(desk[x][i].equals(player.getSymbol()))
+            if(desk[x][i]!=null&&desk[x][i].equals(player.getSymbol()))
                 countOfSameSymbols++;
             else {
                 countOfSameSymbols=0;
@@ -81,7 +81,7 @@ public class Desk {
 
         if(x==y & countOfSameSymbols!=size){
             for (int i = 0; i <desk.length ; i++) {
-                if (desk[i][i].equals(player.getSymbol())) {
+                if (desk[i][i]!=null&&desk[i][i].equals(player.getSymbol())) {
                     countOfSameSymbols++;
                 }
                 else {
@@ -93,7 +93,7 @@ public class Desk {
 
         if(x+y==size-1 & countOfSameSymbols!=size){
             for (int i = 0; i <desk.length ; i++) {
-                if(desk[i][size-1-i].equals(player.getSymbol()))
+                if(desk[i][size-1-i]!=null&&desk[i][size-1-i].equals(player.getSymbol()))
                     countOfSameSymbols++;
                 else {
                     countOfSameSymbols=0;
@@ -104,7 +104,7 @@ public class Desk {
 
     if(countOfSameSymbols!=size) {
         for (int i = 0; i < desk.length; i++) {
-            if (desk[i][y].equals(player.getSymbol()))
+            if (desk[i][y]!=null&&desk[i][y].equals(player.getSymbol()))
                 countOfSameSymbols++;
             else {
                 countOfSameSymbols = 0;
