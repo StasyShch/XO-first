@@ -1,15 +1,17 @@
 import java.util.Arrays;
+import java.awt.*;
 
 public class Desk {
-    private int size;
-    private int countOfCell ;
-  private   String[][] desk;
-
+    private final int size;
+    private int minStepsOfGame;
+    private  int countOfCell ;
+    private   String[][] desk;// restruct to enum
 
 
     public Desk(int size){
         this.size=size;
         countOfCell=size*size;
+        minStepsOfGame=size*2-1;
         desk = new String[size][size];
         int f =1;
         for (int i = 0; i < desk.length; i++) {
@@ -25,27 +27,37 @@ public class Desk {
        return desk;
     }
 
-    public void changeSymbol(int coordinate, String symbol){
-        double place=coordinate-0.2;
-        int lineNumber=(int)(place/3);
-        int placeNumber=(int)place%3;
-
-        desk[lineNumber][placeNumber]=symbol;
+    public  int getCountOfCell(){
+        return countOfCell;
     }
 
     public int getSize(){
         return size;
     }
 
-    public int getCountOfCell() {
-        return countOfCell;
+    public int getMinStepsOfGame(){
+        return minStepsOfGame;
     }
 
-    public boolean checkWin(Player player) {
+    public String getFigure(Point point){
+
+        return desk[point.x][point.y];
+    }
+
+    public void setFigure(Point point,Figure figure){
+        desk[point.x][point.y]=figure.toString();
+    }
+
+    public boolean checkValidityOfInputCoordinate(int coordinate){
+        return coordinate>=1&&coordinate<=this.getCountOfCell();
+    }
+
+
+    public boolean checkWin(Player player, int position) {
         boolean result;
         int countOfSameSymbols = 0;
 
-        double place=player.getLastStepCoordinate()-0.2;
+        double place=position-0.2;
         int lineNumber=(int)(place/3);
         int placeNumber=(int)place%3;
 
