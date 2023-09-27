@@ -1,3 +1,5 @@
+import exceptions.InvalidCoordinateException;
+import exceptions.PointOccupiedException;
 import org.junit.Test;
 import java.awt.*;
 import static org.junit.Assert.assertEquals;
@@ -14,14 +16,19 @@ public class DeskTest {
     }
 
     @Test
-    public void testSetFigure() {
+    public void testSetFigure() throws Exception {
         Figure inputFigure = Figure.O;
         int size = 3;
         final Desk desk= new Desk(size);
         final Point inputPoint = new Point(0,0);
 
         desk.setFigure(inputPoint,inputFigure);
-        Figure actualFigure = Figure.valueOf(desk.getFigure(inputPoint));//need to refactor Figure-String
+        Figure actualFigure = desk.getFigure(inputPoint);
         assertEquals(inputFigure,actualFigure);
     }
+
+    public void testGetFigureFromEmptyDeskCell() throws Exception {
+
+    }
+
 }

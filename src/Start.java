@@ -9,17 +9,18 @@ public class Start {
    public static int size=3;
     String nameOf2Player;
 
-    public static void main(String[] args) throws IOException, TooMuch {
+    public static void main(String[] args) throws IOException {
         View view = new View();
         Desk mainDesk = new Desk(view.getDeskSize());
         view.printDesk(mainDesk);
 
         Player[] players = new Player[2];
-        for (int i = 0; i < players.length; i++) {
-            players[i] = new Player(view);
-        }
+
+            players[0] = new Player(view.getPlayerName(),Figure.X);
+            players[1] = new Player(view.getPlayerName(),Figure.O);
+
         Game game = new Game(mainDesk,players,view);
-        game.startGame();
+        game.start();
 
 
     }

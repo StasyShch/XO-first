@@ -1,5 +1,3 @@
-import java.io.IOException;
-
 public class Player {
 
    private String name;
@@ -18,8 +16,8 @@ public class Player {
         return lastStepCoordinate;
     }
 
-    public String getSymbol() {
-        return figure.toString();
+    public Figure getSymbol() {
+        return figure;
     }
 
 

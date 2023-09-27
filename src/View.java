@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,13 +9,13 @@ public class View {
 
 
 
+    Desk desk;
 
 
-    public String getPlayersNames() throws IOException, TooMuch {
+
+    public String getPlayerName() throws IOException {
         numberOfPlayers++;
-        if (numberOfPlayers>2){
-            throw new TooMuch("Could not create more players");
-        }
+
 
         System.out.println("print name of "+ numberOfPlayers+" player");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -22,25 +23,23 @@ public class View {
 
         return nameOfPlayer;
     }
-    public int getStepCoordinate(Desk desk,Player player) throws IOException, TooMuch {
-        System.out.println(player.getName()+",your symbol is "+player.getSymbol()+", choose where to put it");
+    public Point getStepCoordinate( Player player) throws IOException{
+        System.out.println(player.getName()+" choose line and column where to put symbol");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String number = reader.readLine();
-        int numberOfPlace=Integer.parseInt(number);
-        if (numberOfPlace>desk.getCountOfCell()){
-            throw new TooMuch("there is no such plase on a desk");
-        }
-        return numberOfPlace;
+        String[] coordinates = number.trim().split(",");
+        int x=Integer.parseInt(coordinates[0].trim());
+        int y=Integer.parseInt(coordinates[1].trim());
+
+        return new Point(x,y);
     }
 
-    public int getDeskSize() throws IOException, TooMuch {
+    public int getDeskSize() throws IOException {
         System.out.println("choose size of desk");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String number = reader.readLine();
         int sizeOfDesk = Integer.parseInt(number);
-        if (sizeOfDesk < 3) {
-            throw new TooMuch("too small desk");
-        }
+
         return sizeOfDesk;
     }
 
@@ -61,9 +60,4 @@ public class View {
 
 
 
-class TooMuch extends Exception {
 
-    public TooMuch(String message) {
-        super(message);
-    }
-}

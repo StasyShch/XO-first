@@ -1,11 +1,11 @@
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class PlayerTest {
 
     @Test
-    public void getName() {
+    public void testGetName() {
         final String inputValue = "Jan";
 
         final String expectedName = inputValue;// in this case, but sometimes it could be transformed somehow.
@@ -17,12 +17,12 @@ public class PlayerTest {
     }
 
     @Test
-    public void getSymbol() {
+    public void testGetSymbol() {
         Figure inputFigure =Figure.O;
-        String expectedValue=inputFigure.toString();
+       Figure expectedValue=inputFigure;
 
         final Player player = new Player(null,inputFigure);
-        final String actualValue = player.getSymbol();
+        final Figure actualValue = player.getSymbol();
 
         assertEquals(expectedValue,actualValue);
 
