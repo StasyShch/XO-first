@@ -1,3 +1,8 @@
+package View;
+
+import model.Desk;
+import model.Player;
+
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;

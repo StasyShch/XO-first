@@ -1,3 +1,5 @@
+import model.Figure;
+import model.Player;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -10,7 +12,7 @@ public class PlayerTest {
 
         final String expectedName = inputValue;// in this case, but sometimes it could be transformed somehow.
 
-        final Player player = new Player(inputValue,Figure.O);
+        final Player player = new Player(inputValue, Figure.O);
         final String actualValue = player.getName();
 
         assertEquals(expectedName,actualValue);

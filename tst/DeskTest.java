@@ -1,5 +1,7 @@
 import exceptions.InvalidCoordinateException;
 import exceptions.PointOccupiedException;
+import model.Desk;
+import model.Figure;
 import org.junit.Test;
 import java.awt.*;
 
@@ -27,6 +29,8 @@ public class DeskTest {
         Figure actualFigure = desk.getFigure(inputPoint);
         assertEquals(inputFigure,actualFigure);
     }
+
+
     @Test
     public void testGetFigureFromEmptyDeskCell() throws Exception {
         Figure inputFigure = Figure.O;

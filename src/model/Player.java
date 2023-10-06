@@ -1,3 +1,9 @@
+package model;
+
+import model.Figure;
+
+import java.awt.*;
+
 public class Player {
 
    private String name;
@@ -19,6 +25,8 @@ public class Player {
     public Figure getSymbol() {
         return figure;
     }
+
+
 
 
 
