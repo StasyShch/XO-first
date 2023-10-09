@@ -13,11 +13,6 @@ public class View {
     int numberOfPlayers;
 
 
-
-    Desk desk;
-
-
-
     public String getPlayerName() throws IOException {
         numberOfPlayers++;
 
@@ -48,11 +43,14 @@ public class View {
         return sizeOfDesk;
     }
 
-    public void printMessage(){
+    public void printMessage(Desk desk){
+
         System.out.println("Nobody won");
+        printDesk(desk);
     }
-    public void printWinMessage(Player player){
+    public void printWinMessage(Player player,Desk desk){
         System.out.println("Congratulations, "+player.getName()+" won!");
+        printDesk(desk);
     }
 
     public void printDesk(Desk desk){

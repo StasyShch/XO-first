@@ -1,5 +1,7 @@
 package model;
 
+import controller.CurrentMoveController;
+import controller.WinnerController;
 import exceptions.InvalidCoordinateException;
 import exceptions.PointOccupiedException;
 import model.Desk;
@@ -9,38 +11,32 @@ import java.awt.*;
 import java.io.IOException;
 
 public class Game {
-    Desk desk;
-    Player[] players;
-    View view;
+    private Desk desk;
+  private Player[] players;
+   private View view;
+    boolean winnerFound = false;
 
    private int stepsCounter =0;
-    private Point lastStepPosition;
-    public Game( View view) throws IOException {
 
+    public Game( View view) throws IOException {
         this.view=view;
+    }
+
+    public void start() throws  IOException {
         desk = new Desk(view.getDeskSize());
         players = new Player[2];
         players[0] = new Player(view.getPlayerName(), Figure.X);
         players[1] = new Player(view.getPlayerName(),Figure.O);
-    }
-
-
-
-    public void start() throws  IOException {
-        while (stepsCounter < desk.getCountOfCell()) {
+        while (!winnerFound && stepsCounter < desk.getCountOfCell()) {
             for (int j = 0; j < players.length; j++) {
                 makeStep(players[j]);
-
-                if ( checkWin(players[j],lastStepPosition) == true) {
-                    view.printWinMessage(players[j]);
-                    view.printDesk(desk);
-                  //  winnerFound=true;
-                    stepsCounter = desk.getCountOfCell();
+                if ( checkWin2(players[j]) == true) {
+                    view.printWinMessage(players[j],desk);
+                    winnerFound=true;
                     break;
                 }
                 if (stepsCounter == desk.getCountOfCell()) {
-                    view.printMessage();
-                    view.printDesk(desk);
+                    view.printMessage(desk);
                     break;
                 }
             }
@@ -60,7 +56,7 @@ public class Game {
             throw new PointOccupiedException();
             }
             desk.setFigure(point,player.getSymbol());
-            lastStepPosition=point;
+            player.setLastStepCoordinate(point);
             stepsCounter++;
         } catch (InvalidCoordinateException e) {
             System.out.println("invalid coordinate, try again");
@@ -73,12 +69,14 @@ public class Game {
 
     }
 
-    public boolean checkWin(Player player, Point position) {
+
+
+    public boolean checkWin(Player player) {
         boolean result;
         int countOfSameSymbols = 0;
 
-        int x=position.x;
-        int y=position.y;
+        int x=player.getLastStepCoordinate().x;
+        int y=player.getLastStepCoordinate().y;
 
         for (int i = 0; i <desk.getDesk()[x].length ; i++) {
             if(desk.getDesk()[x][i]!=null &&desk.getDesk()[x][i].equals(player.getSymbol()))
@@ -122,6 +120,16 @@ public class Game {
             }
         }
         return result=countOfSameSymbols==desk.getSize()?true:false;
+    }
+
+    public boolean checkWin2(Player player) {
+        boolean result;
+
+
+        WinnerController controller = new WinnerController();
+        result = controller.winnerFound(desk,player.getLastStepCoordinate());
+       return result;
+
     }
 
 }

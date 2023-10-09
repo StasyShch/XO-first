@@ -8,7 +8,7 @@ public class Player {
 
    private String name;
    private Figure figure;
-   private  int lastStepCoordinate;
+   private  Point lastStepCoordinate;
 
     public Player(String name, Figure figure) {
         this.name = name;
@@ -18,8 +18,11 @@ public class Player {
     public String getName() {
         return name;
     }
-    public int getLastStepCoordinate() {
+    public Point getLastStepCoordinate() {
         return lastStepCoordinate;
+    }
+    public void setLastStepCoordinate(Point point){
+        this.lastStepCoordinate = point;
     }
 
     public Figure getSymbol() {
