@@ -1,5 +1,5 @@
 package model;
 
 public enum Figure {
-    X,O;
+    X,O,Y,N,M
 }

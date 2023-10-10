@@ -12,41 +12,51 @@ import java.io.IOException;
 
 public class Game {
     private Desk desk;
-  private Player[] players;
-   private View view;
-    boolean winnerFound = false;
-
+    private static final int NUMBER_OF_PLAYERS = 2;
+    private Player[] players = new Player[NUMBER_OF_PLAYERS];
+    private View view;
+   private boolean endOfGame = false;
    private int stepsCounter =0;
 
     public Game( View view) throws IOException {
         this.view=view;
     }
 
+    public Desk getDesk(){
+        return desk;
+    }
+
     public void start() throws  IOException {
-        desk = new Desk(view.getDeskSize());
-        players = new Player[2];
-        players[0] = new Player(view.getPlayerName(), Figure.X);
-        players[1] = new Player(view.getPlayerName(),Figure.O);
-        while (!winnerFound && stepsCounter < desk.getCountOfCell()) {
-            for (int j = 0; j < players.length; j++) {
-                makeStep(players[j]);
-                if ( checkWin2(players[j]) == true) {
-                    view.printWinMessage(players[j],desk);
-                    winnerFound=true;
-                    break;
+        //desk initialization
+        int inputSize=view.getDeskSize();
+        desk = new Desk(inputSize);
+        //initialization of players
+        for (int i = 0; i <players.length; i++) {
+            players[i]=new Player(view.getPlayerName(), Figure.values()[i]);
+        }
+       // logic of the game
+        while (!endOfGame) {
+                for (int j = 0; j < players.length; j++) {
+                    if (stepsCounter < desk.getCountOfCell()) {
+                        makeStep(players[j]);
+                            if (checkWin(players[j]) == true) {
+                                view.printWinMessage(players[j], desk);
+                                endOfGame= true;
+                                break;
+                             }
+
+                    } else {
+                        view.printMessage(desk);
+                        endOfGame= true;
+                        break;
+                    }
                 }
-                if (stepsCounter == desk.getCountOfCell()) {
-                    view.printMessage(desk);
-                    break;
-                }
-            }
         }
 
     }
 
 
-
-    public void makeStep ( Player player) throws IOException {
+    private void makeStep ( Player player) throws IOException {
         view.printDesk(desk);
         Point point = view.getStepCoordinate(player);
 
@@ -69,62 +79,8 @@ public class Game {
 
     }
 
-
-
     public boolean checkWin(Player player) {
         boolean result;
-        int countOfSameSymbols = 0;
-
-        int x=player.getLastStepCoordinate().x;
-        int y=player.getLastStepCoordinate().y;
-
-        for (int i = 0; i <desk.getDesk()[x].length ; i++) {
-            if(desk.getDesk()[x][i]!=null &&desk.getDesk()[x][i].equals(player.getSymbol()))
-                countOfSameSymbols++;
-            else {
-                countOfSameSymbols=0;
-                break;}
-        }
-
-        if(x==y & countOfSameSymbols!=desk.getSize()){
-            for (int i = 0; i <desk.getDesk().length ; i++) {
-                if (desk.getDesk()[i][i]!=null&&desk.getDesk()[i][i].equals(player.getSymbol())) {
-                    countOfSameSymbols++;
-                }
-                else {
-                    countOfSameSymbols=0;
-                    break;}
-            }
-        }
-
-
-        if(x+y==desk.getSize()-1 & countOfSameSymbols!=desk.getSize()){
-            for (int i = 0; i <desk.getDesk().length ; i++) {
-                if(desk.getDesk()[i][desk.getSize()-1-i]!=null&&desk.getDesk()[i][desk.getSize()-1-i].equals(player.getSymbol()))
-                    countOfSameSymbols++;
-                else {
-                    countOfSameSymbols=0;
-                    break;}
-
-            }
-        }
-
-        if(countOfSameSymbols!=desk.getSize()) {
-            for (int i = 0; i < desk.getDesk().length; i++) {
-                if (desk.getDesk()[i][y]!=null&&desk.getDesk()[i][y].equals(player.getSymbol()))
-                    countOfSameSymbols++;
-                else {
-                    countOfSameSymbols = 0;
-                    break;
-                }
-            }
-        }
-        return result=countOfSameSymbols==desk.getSize()?true:false;
-    }
-
-    public boolean checkWin2(Player player) {
-        boolean result;
-
 
         WinnerController controller = new WinnerController();
         result = controller.winnerFound(desk,player.getLastStepCoordinate());
