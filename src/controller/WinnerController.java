@@ -9,7 +9,6 @@ public class WinnerController {
     public boolean winnerFound(Desk desk, Point point){
         boolean result;
         int countOfSameSymbols = 0;
-
         int x=point.x;
         int y=point.y;
 

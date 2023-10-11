@@ -9,6 +9,7 @@ import java.awt.*;
 public class Desk {
     private final int size;
     private int minStepsOfGame;
+    private int stepsCounter=0;
     private  int countOfCell ;
     private   Figure[][] desk;// restruct to enum
 
@@ -35,6 +36,10 @@ public class Desk {
         return size;
     }
 
+    public int getStepsCounter(){
+        return stepsCounter;
+    }
+
     public int getMinStepsOfGame(){
         return minStepsOfGame;
     }
@@ -53,6 +58,7 @@ public class Desk {
        }
 
         desk[point.x][point.y]=figure;
+       stepsCounter++;
     }
 
     public boolean validityOfInputCoordinate(int coordinate){

@@ -1,12 +1,10 @@
 package model;
 
-import controller.CurrentMoveController;
+import View.View;
 import controller.WinnerController;
 import exceptions.InvalidCoordinateException;
 import exceptions.PointOccupiedException;
-import model.Desk;
 
-import View.*;
 import java.awt.*;
 import java.io.IOException;
 
@@ -26,26 +24,15 @@ public class Game {
     public int getStepsCounter(){
         return stepsCounter;
     }
-    public void makeStep ( Player player,Point point) throws IOException {
-       // add exception when cant be trans to point
-        try {
-            if(desk.getFigure(point)!=null)
-            {
-            throw new PointOccupiedException();
-            }
-            desk.setFigure(point,player.getSymbol());
-            player.setLastStepCoordinate(point);
-            stepsCounter++;
-        } catch (InvalidCoordinateException e) {
-            System.out.println("invalid coordinate, try again");
-            makeStep(player,point);
-        }
-        catch (PointOccupiedException e) {
-            System.out.println("place is already occupied, try again");
-            makeStep(player,point);
-        }
-
+    public Player[] getPlayers(){
+        return players;
     }
 
 
-}
+    public Player currentPlayer() throws IOException {//only for 2 players works
+        if (desk.getStepsCounter()%2 ==0)
+            return players[0];
+        else return players[1];
+    }
+    }
+

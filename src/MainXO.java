@@ -12,8 +12,8 @@ public class MainXO {
 
     public static void main(String[] args) throws IOException {
         View view =new View();
+
         boolean endOfGame = false;
-        String message = "Nobody won!";
         Player[] players= new Player[Game.NUMBER_OF_PLAYERS];
         //initialization of players
         for (int i = 0; i <players.length; i++) {
@@ -23,27 +23,10 @@ public class MainXO {
         Desk desk = new Desk(inputSize);
         view.printDesk(desk);
         Game game = new Game(players,desk);
-        WinnerController controller = new WinnerController();
-        Point inputPoint;
 
         while (!endOfGame) {
-            for (int j = 0; j < players.length; j++) {
-                if (game.getStepsCounter() < desk.getCountOfCell()) {
-                    inputPoint = view.getStepCoordinate(players[j]);
-                    game.makeStep(players[j],inputPoint);
-                    view.printDesk(desk);
-                    if (controller.winnerFound(desk,players[j].getLastStepCoordinate()) == true) {
-                        message="Congratulations, "+players[j].getName()+" won!";
-                        endOfGame= true;
-                        break;
-                    }
-                }
-                else{
-                endOfGame= true;
-                break;
-                }
-            }
+            endOfGame = !view.canMakeOneMoreMove(game.currentPlayer(), desk);
         }
-        view.printMessage(message);
-    }
+
+        }
 }

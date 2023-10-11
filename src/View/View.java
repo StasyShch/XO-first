@@ -1,6 +1,8 @@
 package View;
 
+import controller.WinnerController;
 import exceptions.InvalidCoordinateException;
+import exceptions.PointOccupiedException;
 import model.Desk;
 import model.Figure;
 import model.Game;
@@ -14,7 +16,7 @@ import java.util.Arrays;
 
 public class View {
     int numberOfPlayers;
-
+    WinnerController winnerController = new WinnerController();
 
     public String getPlayerName() throws IOException {
         numberOfPlayers++;
@@ -46,9 +48,10 @@ public class View {
         return sizeOfDesk;
     }
 
-    public void printMessage(String message){
-        System.out.println(message);
-    }
+    public void printFinalMessage(String message) {
+            System.out.println(message);
+        }
+
     public void printDesk(Desk desk){
         for (int x = 0; x < desk.getSize() ; x++) {
             printLine(desk,x);
@@ -78,7 +81,42 @@ public class View {
         }
         System.out.println();// should be flexible length, depend on size of a game
     }
+
+
+
+    public boolean canMakeOneMoreMove(Player currentPlayer,Desk desk) throws IOException {
+        if (desk.getStepsCounter()>=desk.getCountOfCell()){
+        System.out.println("Nobody won");
+        return false;
+        }
+        Point inputPoint = getStepCoordinate(currentPlayer);
+
+        try {
+            if (desk.getFigure(inputPoint) != null) {
+                throw new PointOccupiedException();
+            }
+            desk.setFigure(inputPoint, currentPlayer.getSymbol());
+            currentPlayer.setLastStepCoordinate(inputPoint);
+            printDesk(desk);
+            if (winnerController.winnerFound(desk, currentPlayer.getLastStepCoordinate()) == true) {
+                System.out.println("Congratulations, " + currentPlayer.getName() + " won!");
+                return false;//for next player
+            }
+            return true;
+
+        } catch (InvalidCoordinateException e) {
+            System.out.println("invalid coordinate, try again");
+            canMakeOneMoreMove(currentPlayer, desk);
+        } catch (PointOccupiedException e) {
+            System.out.println("place is already occupied, try again");
+            canMakeOneMoreMove(currentPlayer, desk);
+        }
+        return true;
+
+    }
 }
+
+
 
 
 
