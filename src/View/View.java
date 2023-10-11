@@ -1,6 +1,9 @@
 package View;
 
+import exceptions.InvalidCoordinateException;
 import model.Desk;
+import model.Figure;
+import model.Game;
 import model.Player;
 
 import java.awt.*;
@@ -43,23 +46,42 @@ public class View {
         return sizeOfDesk;
     }
 
-    public void printMessage(Desk desk){
-
-        System.out.println("Nobody won");
-        printDesk(desk);
+    public void printMessage(String message){
+        System.out.println(message);
     }
-    public void printWinMessage(Player player,Desk desk){
-        System.out.println("Congratulations, "+player.getName()+" won!");
-        printDesk(desk);
-    }
-
     public void printDesk(Desk desk){
-        for (int i = 0; i < desk.getDesk().length; i++) {
-            System.out.println(Arrays.toString(desk.getDesk()[i]));
+        for (int x = 0; x < desk.getSize() ; x++) {
+            printLine(desk,x);
+            if(x<desk.getSize()-1)
+                printSeparator(desk);
         }
     }
+    private void printLine(Desk desk,
+                           int x) {
+        Figure figure;
+        for (int y = 0; y <desk.getSize() ; y++) {
+            if(y!=0)
+                System.out.print("|");
+            try {
+                figure =desk.getFigure(new Point(x,y));
 
+            } catch (InvalidCoordinateException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.print(figure != null ? figure : " ");
+        }
+        System.out.println();
+    }
+    private void printSeparator(Desk desk){
+        for (int i = 0; i < desk.getSize()+desk.getSize()-1; i++) {
+            System.out.print("-");
+        }
+        System.out.println();// should be flexible length, depend on size of a game
+    }
 }
+
+
+
 
 
 
